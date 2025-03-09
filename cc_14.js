@@ -10,7 +10,7 @@ function buildSupportTicket(name, issue, priority) { // creates a functon
 
 
     // declares the writing inside the ticket
-    ticket.innerHTML = `<h2>${name}</h2><p>${issue}</p><h4>${priority}</h4>`;
+    ticket.innerHTML = `<h2 class="nameOnTicket">${name}</h2><p class="ticketIssue">${issue}</p><h4 class="prioOfTicket">${priority}</h4>`;
 
     // creates button, assigns an ID, and gives it some text
     resolveButton = document.createElement("button");
@@ -27,8 +27,52 @@ function buildSupportTicket(name, issue, priority) { // creates a functon
     ticket.addEventListener("click", () => console.log(`${name}'s ticket has been clicked`));
 
 
-    //adds resolve button to the html
+    //Task 5: Additional Challenge – Inline Editing of Support Tickets
+    // creates a edit button
+    const editButton = document.createElement("button");
+    editButton.textContent = "Edit"
+    
+    function editTicket(event) {// creates function
+        // assigns names to selected classes
+        const nameEdit = ticket.querySelector(".nameOnTicket");
+        const issueEdit = ticket.querySelector(".ticketIssue");
+        const priorityEdit = ticket.querySelector(".prioOfTicket");
+
+        // allows for input when using the edit button
+        ticket.innerHTML = `<input type="text" class="nameEdit" value="${nameEdit}"><input type="text" class="issueEdit" value="${issueEdit}"><input type="text" class="prioEdit" value="${priorityEdit}">`
+
+
+        // creates the save button
+        const saveButton = document.createElement("button");
+        saveButton.textContent = "Save";
+
+
+        // uses event listener for click
+        saveButton.addEventListener("click", () => {
+            // assigns the values names
+            const updatedName = ticket.querySelector(".nameEdit").value;
+            const updatedIssue = ticket.querySelector(".issueEdit").value;
+            const updatedPriority = ticket.querySelector(".prioEdit").value;
+
+            // updates the cards
+            ticket.innerHTML = `<h2 class="nameOnTicket">${updatedName}</h2><p class="ticketIssue">${updatedIssue}</p><h4 class="PrioOfTicket">${updatedPriority}</h4>`;
+
+            //keeps the buttons around after editing
+            ticket.appendChild(resolveButton);
+            ticket.appendChild(editButton);
+
+        });
+
+        // adds the save button
+        ticket.appendChild(saveButton);
+    };
+
+    // allows for the click to run the function
+    editButton.addEventListener("click", editTicket);
+
+    //adds resolve and edit button to the html
     ticket.appendChild(resolveButton);
+    ticket.appendChild(editButton);
 
     // task 3: using an if statement to give all high prio tickets a different class name
     if (priority === "High") {
@@ -37,7 +81,7 @@ function buildSupportTicket(name, issue, priority) { // creates a functon
 
     //adds the tickets to the container
     ticketContainer.appendChild(ticket);
-}
+};
 
 // test cases for task 2
 buildSupportTicket("Barry Bonds", "Computer wont connect to the WiFi", "Medium");
