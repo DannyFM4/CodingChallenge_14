@@ -17,6 +17,16 @@ function buildSupportTicket(name, issue, priority) { // creates a functon
     resolveButton.setAttribute("id", "resolveBtn");
     resolveButton.textContent = "Resolve";
 
+    // Task 4: Implementing Ticket Resolution with Event Bubbling
+    resolveButton.addEventListener("click", (event) => { // creates event listener on click
+        ticketContainer.removeChild(ticket); // removes the ticket when resolved
+        event.stopPropagation(); 
+    });
+
+    // uses an event listener on click to log the message in the console
+    ticket.addEventListener("click", () => console.log(`${name}'s ticket has been clicked`));
+
+
     //adds resolve button to the html
     ticket.appendChild(resolveButton);
 
